@@ -25,9 +25,11 @@ int mines = 0;
 
 
 
+
 int main(){
 
-    printf("test");
+    printf("Welcome to Minesweeper\n");
+    difficulty();
 
     return 0;
 
@@ -36,6 +38,30 @@ int main(){
 
 
 void difficulty(){
+    diff = 0;
+
+    while((diff != 1) && (diff !=2) && (diff != 3)){
+        printf("Choose a difficulty of your choice\n");
+        printf("(1) Easy\n");
+        printf("(2) Normal\n");
+        printf("(3) Hard\n");
+        printf("Enter a number: ");
+        scanf("%d", &diff);
+        
+        if( (diff != 1) && (diff !=2) && (diff != 3)){
+            printf("Invalid Number, Please only choose from 1-3\n");
+        }
+    }
+
+    if (diff == 1){
+        printf("This is number 1");
+    }
+    else if (diff == 2){
+        printf("This is number 2");
+    }
+    else if (diff == 3){
+        printf("This is number 3");
+    }
 
 }
 
