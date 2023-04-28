@@ -30,7 +30,7 @@ int main(){
 
     printf("Welcome to Minesweeper\n");
     difficulty();
-
+    printf("HEHEHEHEHEHE");
     return 0;
 
 
