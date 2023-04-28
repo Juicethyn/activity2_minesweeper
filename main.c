@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
+
 
 
 void difficulty();
@@ -14,6 +16,12 @@ void get_adjacent_cells();
 void count_adjacent_mines();
 void play_game();
 
+
+int x,y;
+int row, column;
+int diff;
+int number_of_mines = 0;
+int mines = 0;
 
 
 
@@ -43,7 +51,7 @@ void normal(){
 
 void hard(){
 
-    
+
 }
 
 
