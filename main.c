@@ -30,9 +30,8 @@ int main(){
 
     printf("Welcome to Minesweeper\n");
     difficulty();
-    printf("HEHEHEHEHEHE");
-    return 0;
 
+    return 0;
 
 }
 
@@ -85,6 +84,10 @@ void hard(){
 
 
 void generate_board(){
+    int row = 10;
+    int column = 10;
+
+    printf("Hello World");
     
 }
 
