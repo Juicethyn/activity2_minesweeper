@@ -3,10 +3,8 @@
 
 int main(){
 
-    printf("Test");
-    printf("testulet");
-    printf("try lang");
-    printf("tangina");
+    printf("Hello World");
+    printf("testttt");
 
     return 0;
 }
