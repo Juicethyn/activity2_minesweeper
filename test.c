@@ -18,8 +18,12 @@ int main(){
 
     srand(time(0));
 
-    gotoxy(1,2); 
-    printf("Welcome to Minesweeper");
+    gotoxy(5,5); printf("Welcome to Minesweeper");
+    bombs();
+
+    for(int ctry=0; ctry<MAXBOMB; ctry++){
+        gotoxy(5,6+ctry); printf("%i) x=%i v=%i", ctry+1, bombx[ctry], bomby[ctry]);
+    }
 
 
 
