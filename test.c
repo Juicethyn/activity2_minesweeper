@@ -18,7 +18,7 @@ int main(){
 
     srand(time(0));
 
-    gotoxy(5,5); printf("Welcome to Minesweeper");
+    gotoxy(0,1); printf("Welcome to Minesweeper");
     bombs();
 
     for(int ctry=0; ctry<MAXBOMB; ctry++){
