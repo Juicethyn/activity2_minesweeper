@@ -17,9 +17,9 @@ void init_board();
 void place_bombs();
 void print_board();
 void player_guess();
+int cell_valid(int x, int y);
 void reveal_cell();
-void get_adjacent_cells();
-void count_adjacent_mines();
+int count_adjacent_bombs();
 
 
 // Mga bago na nilagay ko
@@ -142,15 +142,15 @@ void place_bombs(){ // A Function to randomly place the bombs on the board
     
     srand(time(0));
 
-    int count;
+    int bombs;
 
-    while (count < number_of_bombs){
+    while (bombs < number_of_bombs){
         int i = rand() % row;
         int j = rand() % column;
 
         if (board[i][j] != '*'){ 
             board[i][j] = '-';
-            count++;
+            bombs++;
         }
     }
 
@@ -160,7 +160,7 @@ void print_board(){ // Function to print the current board
     int i ;
     int j;
 
-    system("cls"); // Clears the output screen
+    // system("cls"); // Clears the output screen
 
     printf("\n        ");
     
@@ -187,22 +187,45 @@ void print_board(){ // Function to print the current board
     printf("\n");
 }
 
-void player_guess(){
 
+void player_guess(){
+    //None for now
+    printf("Enter row and column (x, y): ");
+    scanf("%d %d", &x, &y);
+    x--;
+    y--;
+}
+
+int cell_valid(int x, int y){
+
+    if (x < 0 || x >= row || y < 0 || y >= column){
+        printf("\n Cell already revealed, enter another cell");
+        player_guess();
+    }
     
 }
 
+int count_adjacent_bombs(int x, int y){
+    int bombs = 0;
+    int i;
+    int j;
 
-void reveal_cell(){
+    for (i=x-1; i <= x+1; i++){
+        for (j = y-1; j <= y+1; j++){
+            if (cell_valid(i,j) && board[i][j] == '-'){
+                bombs++;
+            }
+        }
+    }
 
 }
 
-void get_adjacent_cells(){
+void reveal_cell(int x, int y){
 
-}
-
-void count_adjacent_mines(){
-
+    if (board[x][y] == '*'){
+        player_life--;
+        print_board();
+    }
 }
 
 
