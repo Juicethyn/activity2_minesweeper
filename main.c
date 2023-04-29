@@ -13,7 +13,8 @@ void difficulty();
 void easydiff();
 void normaldiff();
 void harddiff();
-void generate_board();
+void init_board();
+void place_bombs();
 void reveal_cell();
 void print_board();
 void get_adjacent_cells();
@@ -27,33 +28,35 @@ void play_again();
 
 
 int x,y;
-int row, column;
+int row = 10; 
+int column = 10;
 int diff;
-int number_of_bombs = 0;
-int bombs = 0;
-// Update From me
-int player_life = 0;
-
+int number_of_bombs = 5;
+int bombs;
+int player_life = 3;
+int board[20][20];
+int empty_board[20][20];
+int final_board[20][20];
 
 
 
 
 int main(){
 
-    printf("==============              =============\n");
-    printf("\\\\\\           \\____________/           ///\n");
-    printf(" \\\\\\                                  ///\n");
-    printf("  \\\\\\ >>> WELCOME TO MINESWEPEER <<< ///\n");
-    printf("  ///          ____________          \\\\\\\n");
-    printf(" ///          /            \\          \\\\\\ \n");
-    printf("==============              ==============\n");
+    // printf("==============              =============\n");
+    // printf("\\\\\\           \\____________/           ///\n");
+    // printf(" \\\\\\                                  ///\n");
+    // printf("  \\\\\\ >>> WELCOME TO MINESWEPEER <<< ///\n");
+    // printf("  ///          ____________          \\\\\\\n");
+    // printf(" ///          /            \\          \\\\\\ \n");
+    // printf("==============              ==============\n");
     // difficulty();
 
     // play_again();
 
-    game_over();
+    // game_over();
     
-    
+    init_board();
 
 
     return 0;
@@ -97,7 +100,7 @@ void easydiff(){
     int column = 8;
     int number_of_bombs = 10;
     
-    generate_board();
+    init_board();
 }
 
 void normaldiff(){
@@ -119,55 +122,66 @@ void harddiff(){
 }
 
 
-void generate_board(){
-    int board[row][column];
-    int i, j, count = 0;
+void init_board(){
 
-    // initialize the board
-    for (i = 0; i < row; i++) {
-        for(j = 0; j < column; j++) {
+    int i;
+    int j;
+
+    for(i=0; i < row; i++){
+        for(j=0; j < column; j++){
             board[i][j] = 0;
         }
     }
 
-    // randomly place mines on the board
-    srand(time(NULL));  // initialize random no.
-    count = 0;
-    while (count < number_of_bombs){
-        i = rand() % row;
-        j = rand() % column;
+    place_bombs();
+    print_board();
+}
 
-        if(board[x][y] != -1){
-            board[x][y] = -1;
+void place_bombs(){ // A Function to randomly place the bombs on the board
+    
+    srand(time(0));
+
+    int count;
+
+    while (count < number_of_bombs){
+        int i = rand() % row;
+        int j = rand() % column;
+
+        if (board[i][j] == 0){
+            board[i][j] = -1;
             count++;
         }
     }
 
-    // Calculate the adjacent number 
-    for (i = 0; i < row; i++) {
-        for (j = 0; j < column; j++) {
-            if (board[i][j] != '*') {
-                    for(int x = -1; x<=1; x++){
-                        for(int y = -1; y <=1; y++){
-                            if(i + x >= 0 && i + x < row && j + y >= 0 && j + y < column)
-                            if(board[i + x][j + y] == '*'){
-                                count++;
-                            }
-                        }
-                    }
-            }
-            board[i][j] = count;
-        }
+}
+
+void print_board(){ // Function to print the current board
+    int i;
+    int j;
+
+    printf("\n");
+    
+    for (i = 0; i < row; i++){
+        printf("%d", i+1);
     }
+    printf("\n");
+    for (i = 0; i < column; i++){
+        printf("|%2d| ", i+1);
+        printf("%1s", "||");
+        for (j = 0; j < column; j++){
+            if (board[i][j] >= 0){
+                printf(" ");
+            }
+            printf("%d ", board[i][j]);
+        }
+        printf("||\n");
+    }
+
+    printf("\n");
 }
 
 
 void reveal_cell(){
-
-
-}
-
-void print_board(){
 
 }
 
