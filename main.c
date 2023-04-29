@@ -18,7 +18,7 @@ void place_bombs();
 void print_board();
 void player_guess();
 int cell_valid(int x, int y);
-void reveal_cell();
+void reveal_cell(int x, int y);
 int count_adjacent_bombs();
 
 
@@ -34,7 +34,7 @@ int column = 20;
 int diff;
 int number_of_bombs = 5;
 int bombs;
-int player_life = 3;
+int player_life = 0;
 int board[25][25];
 int empty_board[25][25];
 int final_board[25][25];
@@ -51,13 +51,13 @@ int main(){
     // printf("  ///          ____________          \\\\\\\n");
     // printf(" ///          /            \\          \\\\\\ \n");
     // printf("==============              ==============\n");
-    // difficulty();
+    difficulty();
 
     // play_again();
 
     // game_over();
     
-    init_board();
+    // init_board();
 
 
     return 0;
@@ -102,14 +102,16 @@ void easydiff(){
     int number_of_bombs = 10;
     
     init_board();
+    player_guess();
 }
 
 void normaldiff(){
     int row = 12;
     int column = 12;
     
-    printf("Size of Row: %d\n", row);
-    printf("Size of Column: %d", column);
+    init_board();
+    player_guess();
+
 
 }
 
@@ -117,8 +119,8 @@ void harddiff(){
     int row = 20;
     int column = 20;
     
-    printf("Size of Row: %d\n", row);
-    printf("Size of Column: %d", column);
+    init_board();
+    player_guess();
 
 }
 
@@ -130,7 +132,7 @@ void init_board(){
 
     for(i=0; i < row; i++){
         for(j=0; j < column; j++){
-            board[i][j] = '-';
+            board[i][j] = '*';
         }
     }
 
@@ -148,8 +150,8 @@ void place_bombs(){ // A Function to randomly place the bombs on the board
         int i = rand() % row;
         int j = rand() % column;
 
-        if (board[i][j] != '*'){ 
-            board[i][j] = '-';
+        if (board[i][j] != '@'){ 
+            board[i][j] = '*';
             bombs++;
         }
     }
@@ -188,18 +190,24 @@ void print_board(){ // Function to print the current board
 }
 
 
+// NEED FIX
+
 void player_guess(){
     //None for now
     printf("Enter row and column (x, y): ");
     scanf("%d %d", &x, &y);
     x--;
     y--;
+    if (!cell_valid(x,y)){
+        cell_valid(x,y);
+    }
+    
 }
 
 int cell_valid(int x, int y){
 
     if (x < 0 || x >= row || y < 0 || y >= column){
-        printf("\n Cell already revealed, enter another cell");
+        printf("\n Cell already revealed, enter another cell\n");
         player_guess();
     }
     
@@ -212,7 +220,7 @@ int count_adjacent_bombs(int x, int y){
 
     for (i=x-1; i <= x+1; i++){
         for (j = y-1; j <= y+1; j++){
-            if (cell_valid(i,j) && board[i][j] == '-'){
+            if (cell_valid(i,j) && board[i][j] == '@'){
                 bombs++;
             }
         }
@@ -224,14 +232,63 @@ void reveal_cell(int x, int y){
 
     if (board[x][y] == '*'){
         player_life--;
-        print_board();
+
+        if(player_life == 0){
+            game_over();
+        }
+        else{
+            print_board();
+        }
     }
+
+    if (board[x][y] != '-'){
+        int i;
+        int j;
+        int bombs = 0;
+
+        for (i = x-1; i <= x+1; i++){
+            for(j = y-1 ; j <= y+1; j++){
+                if (cell_valid(i,j) && board[i][j] == '@'){
+                    bombs++;
+                }
+            }
+        }
+
+        if (bombs == 0){
+            board[x][y] = ' ';
+            for (i = x-1; i <= x+1; i++){
+                for(j = y-1 ; j <= y+1; j++){
+                    if (cell_valid(i,j)){
+                        reveal_cell(i,j);
+                    }
+                }
+            }
+        }
+        else{
+            board[x][y] = bombs + '0';
+        }
+    }
+
+    int bombs = count_adjacent_bombs(x, y);
+    board[x][y] = bombs + '0';
+    number_of_bombs--;
+
+    if(number_of_bombs == 0){
+        win();
+    }
+
 }
+
+
+
+
+// WORKING CODES
 
 
 void win(){
     // Wala na muna need ko code ni aubrey
-
+    printf("WINNER");
+    play_again();
 }
 
 
