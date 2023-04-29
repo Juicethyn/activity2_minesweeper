@@ -32,7 +32,7 @@ int diff;
 int number_of_bombs = 0;
 int bombs = 0;
 // Update From me
-int player_life = 3;
+int player_life = 0;
 
 
 
@@ -47,11 +47,11 @@ int main(){
     printf("  ///          ____________          \\\\\\\n");
     printf(" ///          /            \\          \\\\\\ \n");
     printf("==============              ==============\n");
-    difficulty();
+    // difficulty();
 
     // play_again();
 
-    // game_over();
+    game_over();
     
     
 
