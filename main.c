@@ -29,8 +29,8 @@ void play_again();
 int x,y;
 int row, column;
 int diff;
-int number_of_mines = 0;
-int mines = 0;
+int number_of_bombs = 0;
+int bombs = 0;
 // Update From me
 int player_life = 3;
 
@@ -39,6 +39,7 @@ int player_life = 3;
 
 
 int main(){
+
     printf("==============              =============\n");
     printf("\\\\\\           \\____________/           ///\n");
     printf(" \\\\\\                                  ///\n");
@@ -46,9 +47,11 @@ int main(){
     printf("  ///          ____________          \\\\\\\n");
     printf(" ///          /            \\          \\\\\\ \n");
     printf("==============              ==============\n");
-    // difficulty();
+    difficulty();
 
-    play_again();
+    // play_again();
+
+    // game_over();
     
     
 
@@ -57,14 +60,18 @@ int main(){
 }
 
 
-void difficulty(){
+void difficulty(){ // THIS FUNCTION FOCUSES ON WHAT KIND OF DIFFICULTY YOU WANT TO PLAY
     diff = 0;
 
     while((diff != 1) && (diff !=2) && (diff != 3)){
-        printf("Choose a difficulty of your choice\n");
-        printf("(1) Easy\n");
-        printf("(2) Normal\n");
-        printf("(3) Hard\n");
+        printf("     >>> SELECT YOUR DIFFICULTY <<<\n");
+        printf("       \\\\======================//\n");
+        printf("       ||  (1) EASY [8x8]     ||\n");
+        printf("       |]=====================[|\n");
+        printf("       ||  (2) NORMAL [12x12] ||\n");
+        printf("       |]=====================[|\n");
+        printf("       ||  (3) HARD [20x20]   ||\n");
+        printf("       //=====================\\\\\n");
         printf("Enter a number: ");
         scanf("%d", &diff);
         
@@ -88,9 +95,9 @@ void difficulty(){
 void easydiff(){
     int row = 8;
     int column = 8;
+    int number_of_bombs = 10;
     
-    printf("Size of Row: %d\n", row);
-    printf("Size of Column: %d", column);
+    generate_board();
 }
 
 void normaldiff(){
@@ -112,15 +119,46 @@ void harddiff(){
 }
 
 
-
-
-
 void generate_board(){
-    int row = 10;
-    int column = 10;
+    int board[row][column];
+    int i, j, count = 0;
 
-    printf("Hello World");
-    
+    // initialize the board
+    for (i = 0; i < row; i++) {
+        for(j = 0; j < column; j++) {
+            board[i][j] = 0;
+        }
+    }
+
+    // randomly place mines on the board
+    srand(time(NULL));  // initialize random no.
+    count = 0;
+    while (count < number_of_bombs){
+        i = rand() % row;
+        j = rand() % column;
+
+        if(board[x][y] != -1){
+            board[x][y] = -1;
+            count++;
+        }
+    }
+
+    // Calculate the adjacent number 
+    for (i = 0; i < row; i++) {
+        for (j = 0; j < column; j++) {
+            if (board[i][j] != '*') {
+                    for(int x = -1; x<=1; x++){
+                        for(int y = -1; y <=1; y++){
+                            if(i + x >= 0 && i + x < row && j + y >= 0 && j + y < column)
+                            if(board[i + x][j + y] == '*'){
+                                count++;
+                            }
+                        }
+                    }
+            }
+            board[i][j] = count;
+        }
+    }
 }
 
 
@@ -150,7 +188,10 @@ void win(){
 
 void game_over(){
     if (player_life == 0){
-        printf("Game Over YOU LOST!");
+        printf("=================\n");
+        printf("\\\\  GAME OVER  //\n");
+        printf("//  YOU LOSE!  \\\\\n");
+        printf("=================\n");
         play_again();
     }
     else{
@@ -166,9 +207,11 @@ void play_again(){
     scanf("%c", &option);
 
     if ((option == 'Y') || (option == 'y')){
+        player_life = 3;
         difficulty();
     }
     else if ((option == 'N') || (option == 'n')){
+        player_life = 3;
         game_over();
     }
 }
