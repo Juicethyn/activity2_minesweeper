@@ -15,8 +15,9 @@ void normaldiff();
 void harddiff();
 void init_board();
 void place_bombs();
-void reveal_cell();
 void print_board();
+void player_guess();
+void reveal_cell();
 void get_adjacent_cells();
 void count_adjacent_mines();
 
@@ -28,15 +29,15 @@ void play_again();
 
 
 int x,y;
-int row = 10; 
-int column = 10;
+int row = 20; 
+int column = 20;
 int diff;
 int number_of_bombs = 5;
 int bombs;
 int player_life = 3;
-int board[20][20];
-int empty_board[20][20];
-int final_board[20][20];
+int board[25][25];
+int empty_board[25][25];
+int final_board[25][25];
 
 
 
@@ -129,7 +130,7 @@ void init_board(){
 
     for(i=0; i < row; i++){
         for(j=0; j < column; j++){
-            board[i][j] = 0;
+            board[i][j] = '-';
         }
     }
 
@@ -147,8 +148,8 @@ void place_bombs(){ // A Function to randomly place the bombs on the board
         int i = rand() % row;
         int j = rand() % column;
 
-        if (board[i][j] == 0){
-            board[i][j] = -1;
+        if (board[i][j] != '*'){ 
+            board[i][j] = '-';
             count++;
         }
     }
@@ -156,28 +157,39 @@ void place_bombs(){ // A Function to randomly place the bombs on the board
 }
 
 void print_board(){ // Function to print the current board
-    int i;
+    int i ;
     int j;
+
+    system("cls"); // Clears the output screen
+
+    printf("\n        ");
+    
+    for (i = 0; i < row; i++){
+        printf("%-3d", i+1);
+    }
 
     printf("\n");
     
-    for (i = 0; i < row; i++){
-        printf("%d", i+1);
-    }
-    printf("\n");
-    for (i = 0; i < column; i++){
+    for (i = 0; i < column; i++){ // This section prints the board of the game
         printf("|%2d| ", i+1);
-        printf("%1s", "||");
+        printf("%s", "||");
         for (j = 0; j < column; j++){
             if (board[i][j] >= 0){
                 printf(" ");
             }
-            printf("%d ", board[i][j]);
+            if (board[i][j] == -1){
+                printf(" ");
+            }
+            printf("%c ", board[i][j]);
         }
         printf("||\n");
     }
-
     printf("\n");
+}
+
+void player_guess(){
+
+    
 }
 
 
